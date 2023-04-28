@@ -1,3 +1,4 @@
+import router from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -22,12 +23,10 @@ export default function login() {
         method: "GET",
         credentials: "include",
       }
-    ).then((response) => console.log(response));
+    );
     const token = document.cookie.match(
       new RegExp("XSRF-TOKEN" + "=([^;]*);*")
     )!![1];
-    console.log(token);
-    console.log(JSON.stringify(data));
 
     const response = await fetch("http://localhost:8090/api/i/flow/login", {
       method: "POST",
@@ -38,7 +37,14 @@ export default function login() {
       },
       body: JSON.stringify(data),
     });
-    console.log(response.json());
+    
+    // ログイン成功の場合は遷移する
+    if(response.status == 200) {
+      const user: Promise<IFormInput> = response.json()
+      router.push('/top/')
+    }
+
+    console.log(response);
     return response;
   };
 
