@@ -37,15 +37,13 @@ export default function login() {
       },
       body: JSON.stringify(data),
     });
-    
+
     // ログイン成功の場合は遷移する
     if(response.status == 200) {
       const user: Promise<IFormInput> = response.json()
-      router.push('/top/')
+      console.log(user);
+      router.push('/home/')
     }
-
-    console.log(response);
-    return response;
   };
 
   // handleSubmit の
